@@ -5,6 +5,7 @@ export type OpenWeatherAPI = {
   main: Main;
   visibility: number;
   wind: Wind;
+  rain: Rain;
   clouds: Clouds;
   dt: number;
   sys: Sys;
@@ -32,6 +33,10 @@ export type Main = {
   humidity: number;
 };
 
+export type Rain = {
+  '1h': number;
+};
+
 export type Sys = {
   type: number;
   id: number;
@@ -50,5 +55,4 @@ export type Weather = {
 export type Wind = {
   speed: number;
   deg: number;
-  gust: number;
 };

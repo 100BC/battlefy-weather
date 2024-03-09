@@ -13,6 +13,7 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
+import { fetchWeather } from '@/lib/openWeatherApi';
 
 const formSchema = z.object({
   location: z.string(),
@@ -26,11 +27,10 @@ const LocationForm = () => {
     },
   });
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const weatherData = await fetchWeather(values.location);
+    // TODO handle error
+    console.log(JSON.stringify(weatherData));
   }
 
   return (
