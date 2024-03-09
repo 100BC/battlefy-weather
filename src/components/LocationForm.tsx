@@ -16,6 +16,7 @@ import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { fetchWeather } from '@/lib/openWeatherApi';
 import { useState } from 'react';
+import { useWeatherStore } from './providers/WeatherStoreProvider';
 
 const formSchema = z.object({
   location: z.string(),
@@ -23,6 +24,7 @@ const formSchema = z.object({
 
 const LocationForm = () => {
   const [submitting, setSubmitting] = useState(false);
+  const { addCity } = useWeatherStore((state) => state);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -39,8 +41,7 @@ const LocationForm = () => {
       form.setError('location', { message: String(weatherData.errors) });
     } else {
       form.reset();
-      // TODO set up global state management
-      console.log(JSON.stringify(weatherData));
+      addCity(weatherData);
     }
     setSubmitting(false);
   }
