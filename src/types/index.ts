@@ -5,7 +5,8 @@ export type OpenWeatherAPI = {
   main: Main;
   visibility: number;
   wind: Wind;
-  rain: Rain;
+  rain?: Precipitation;
+  snow?: Precipitation;
   clouds: Clouds;
   dt: number;
   sys: Sys;
@@ -31,10 +32,13 @@ export type Main = {
   temp_max: number;
   pressure: number;
   humidity: number;
+  sea_level?: number;
+  grnd_level?: number;
 };
 
-export type Rain = {
-  '1h': number;
+export type Precipitation = {
+  '1h'?: number;
+  '3h'?: number;
 };
 
 export type Sys = {
