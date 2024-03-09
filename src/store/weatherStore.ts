@@ -7,6 +7,7 @@ export type WeatherState = {
 
 export type WeatherActions = {
   addCity: (city: OpenWeatherAPI) => void;
+  addWeather: (weather: OpenWeatherAPI[]) => void;
 };
 
 export type WeatherStore = WeatherState & WeatherActions;
@@ -35,5 +36,8 @@ export const createWeatherStore = (
   return createStore<WeatherStore>()((set) => ({
     ...initState,
     addCity: (newCity) => set((state) => addCity(state, newCity)),
+    addWeather: (weather) => {
+      set({ weather });
+    },
   }));
 };

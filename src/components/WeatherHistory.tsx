@@ -1,11 +1,25 @@
 'use client';
 
+import { useEffect } from 'react';
 import WeatherCard from './WeatherCard';
 import { useWeatherStore } from './providers/WeatherStoreProvider';
 import { TypographyH2 } from './ui/typography';
 
 const WeatherHistory = () => {
-  const { weather } = useWeatherStore((state) => state);
+  const { weather, addWeather } = useWeatherStore((state) => state);
+
+  useEffect(() => {
+    const st = localStorage.getItem('weather');
+    if (st) {
+      addWeather(JSON.parse(st));
+    }
+  }, [addWeather]);
+
+  useEffect(() => {
+    if (weather.length > 0) {
+      localStorage.setItem('weather', JSON.stringify(weather));
+    }
+  }, [weather]);
 
   return (
     <>
