@@ -1,5 +1,6 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
 import {
   Form,
   FormControl,
@@ -14,12 +15,15 @@ import { useForm } from 'react-hook-form';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { fetchWeather } from '@/lib/openWeatherApi';
+import { useState } from 'react';
 
 const formSchema = z.object({
   location: z.string(),
 });
 
 const LocationForm = () => {
+  const [submitting, setSubmitting] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -28,9 +32,17 @@ const LocationForm = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setSubmitting(true);
     const weatherData = await fetchWeather(values.location);
-    // TODO handle error
-    console.log(JSON.stringify(weatherData));
+
+    if ('errors' in weatherData) {
+      form.setError('location', { message: String(weatherData.errors) });
+    } else {
+      form.reset();
+      // TODO set up global state management
+      console.log(JSON.stringify(weatherData));
+    }
+    setSubmitting(false);
   }
 
   return (
@@ -55,7 +67,18 @@ const LocationForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Search</Button>
+        <Button
+          type="submit"
+          disabled={submitting}
+          aria-disabled={submitting}
+          className="min-w-20"
+        >
+          {submitting ? (
+            <Loader2 className="mx-auto h-4 w-4 animate-spin" />
+          ) : (
+            'Search'
+          )}
+        </Button>
       </form>
     </Form>
   );
