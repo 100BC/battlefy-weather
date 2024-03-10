@@ -1,7 +1,6 @@
 import LocationForm from '@/components/LocationForm';
 import WeatherHistory from '@/components/WeatherHistory';
 import { TypographyH1 } from '@/components/ui/typography';
-import Image from 'next/image';
 
 export default function Home() {
   return (

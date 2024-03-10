@@ -2,7 +2,6 @@ import { OpenWeatherAPI } from '@/types';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -15,7 +14,7 @@ import { Button } from './ui/button';
 import { fetchWeather } from '@/lib/openWeatherApi';
 import { useWeatherStore } from './providers/WeatherStoreProvider';
 import { useToast } from './ui/use-toast';
-import dayjs from 'dayjs';
+import WeatherIcon from './WeatherIcon';
 
 type Props = {
   city: OpenWeatherAPI;
@@ -42,9 +41,9 @@ const WeatherCard = ({ city }: Props) => {
         description:
           'There was a problem refreshing the weather. Please try again later.',
       });
-    } else if (dayjs().isAfter(dayjs(weatherData.dt * 1000))) {
+    } else if (weatherData.dt === dt) {
       toast({
-        description: 'Already showing the latest weather data',
+        description: `Already showing the latest weather for ${name}`,
       });
     } else {
       addCity(weatherData);
@@ -61,15 +60,16 @@ const WeatherCard = ({ city }: Props) => {
       </CardHeader>
       <CardContent className="flex flex-col gap-1">
         <ol className="space-y-1">
-          <li className="text-3xl font-bold">
+          <li className="text-3xl font-bold flex justify-center gap-1 items-center">
+            <WeatherIcon weather={weather[0].main} />
             <Degree temp={temp.temp} />
           </li>
           <li>{weatherDesc}</li>
           <li className="text-gray-500 text-sm">
-            <Degree temp={temp.temp_min} /> / <Degree temp={temp.temp_max} />
+            Feels like <Degree temp={temp.feels_like} />
           </li>
           <li className="text-gray-500 text-sm">
-            Feels like <Degree temp={temp.feels_like} />
+            <Degree temp={temp.temp_min} /> / <Degree temp={temp.temp_max} />
           </li>
         </ol>
       </CardContent>

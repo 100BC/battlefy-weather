@@ -26,7 +26,7 @@ const WeatherHistory = () => {
       {weather.length > 0 && (
         <>
           <TypographyH2>History</TypographyH2>
-          <ol className="space-y-4 w-80">
+          <ol className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {weather.map((w) => (
               <WeatherCard city={w} key={w.id} />
             ))}
