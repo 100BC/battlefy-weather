@@ -15,6 +15,7 @@ import { fetchWeather } from '@/lib/openWeatherApi';
 import { useWeatherStore } from './providers/WeatherStoreProvider';
 import { useToast } from './ui/use-toast';
 import WeatherIcon from './WeatherIcon';
+import Link from 'next/link';
 
 type Props = {
   city: OpenWeatherAPI;
@@ -67,7 +68,12 @@ const WeatherCard = ({ city }: Props) => {
       </Button>
       <CardHeader>
         <CardTitle>
-          {name}, {sys.country}
+          <Link
+            href={`/${sys.country}/${name}`}
+            className="text-blue-500 hover:underline"
+          >
+            {name}, {sys.country}
+          </Link>
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-1">

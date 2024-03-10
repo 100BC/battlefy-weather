@@ -4,7 +4,7 @@ import { TypographyH1 } from '@/components/ui/typography';
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center p-24 space-y-8">
+    <main>
       <TypographyH1>Battlefy Weather</TypographyH1>
       <LocationForm />
       <WeatherHistory />
