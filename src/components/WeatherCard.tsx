@@ -9,7 +9,7 @@ import {
 import Degree from './Degree';
 import { useMemo, useState } from 'react';
 import { getTimeOfCalc, toUpper } from '@/lib/utils';
-import { Loader2, RefreshCw } from 'lucide-react';
+import { Cross, Loader2, RefreshCw, Trash, X } from 'lucide-react';
 import { Button } from './ui/button';
 import { fetchWeather } from '@/lib/openWeatherApi';
 import { useWeatherStore } from './providers/WeatherStoreProvider';
@@ -23,8 +23,8 @@ type Props = {
 const WeatherCard = ({ city }: Props) => {
   const { toast } = useToast();
   const [refreshing, setRefreshing] = useState(false);
-  const { addCity } = useWeatherStore((state) => state);
-  const { sys, name, main: temp, weather, dt } = city;
+  const { addCity, removeCity } = useWeatherStore((state) => state);
+  const { sys, name, main: temp, weather, dt, id } = city;
   const weatherDesc = useMemo(
     () => toUpper(weather[0]?.description || ''),
     [weather]
@@ -51,8 +51,20 @@ const WeatherCard = ({ city }: Props) => {
     setRefreshing(false);
   }
 
+  function handleDelete() {
+    removeCity(id);
+  }
+
   return (
-    <Card className="text-center">
+    <Card className="text-center relative">
+      <Button
+        variant="ghost"
+        className="absolute top-0 right-0 w-6 h-6 p-1"
+        type="button"
+        onClick={handleDelete}
+      >
+        <X className="w-4 h-4" />
+      </Button>
       <CardHeader>
         <CardTitle>
           {name}, {sys.country}

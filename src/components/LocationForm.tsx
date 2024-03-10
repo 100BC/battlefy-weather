@@ -62,7 +62,8 @@ const LocationForm = () => {
                 <Input placeholder="New York, US" {...field} />
               </FormControl>
               <FormDescription>
-                Enter the city with an optional country code
+                Enter a city name and an optional country abbreviation separated
+                by a comma
               </FormDescription>
               <FormMessage />
             </FormItem>

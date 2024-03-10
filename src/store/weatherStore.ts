@@ -8,6 +8,7 @@ export type WeatherState = {
 export type WeatherActions = {
   addCity: (city: OpenWeatherAPI) => void;
   addWeather: (weather: OpenWeatherAPI[]) => void;
+  removeCity: (cityId: number) => void;
 };
 
 export type WeatherStore = WeatherState & WeatherActions;
@@ -20,14 +21,14 @@ export const defaultWeatherStore: WeatherState = {
   weather: [],
 };
 
-const addCity = (state: WeatherState, newCity: OpenWeatherAPI) => {
-  const arr = state.weather;
-  const indexExist = arr.findIndex((i) => i.id === newCity.id);
+const removeCityIndex = (weatherArr: OpenWeatherAPI[], cityId: number) => {
+  const arr = weatherArr;
+  const indexExist = arr.findIndex((i) => i.id === cityId);
   if (indexExist >= 0) {
     arr.splice(indexExist, 1);
   }
 
-  return { weather: [newCity, ...arr] };
+  return arr;
 };
 
 export const createWeatherStore = (
@@ -35,9 +36,14 @@ export const createWeatherStore = (
 ) => {
   return createStore<WeatherStore>()((set) => ({
     ...initState,
-    addCity: (newCity) => set((state) => addCity(state, newCity)),
     addWeather: (weather) => {
       set({ weather });
     },
+    addCity: (newCity) =>
+      set((state) => ({
+        weather: [newCity, ...removeCityIndex(state.weather, newCity.id)],
+      })),
+    removeCity: (cityId) =>
+      set((state) => ({ weather: removeCityIndex(state.weather, cityId) })),
   }));
 };

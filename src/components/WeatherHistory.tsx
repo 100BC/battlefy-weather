@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import WeatherCard from './WeatherCard';
 import { useWeatherStore } from './providers/WeatherStoreProvider';
 import { TypographyH2 } from './ui/typography';
 
 const WeatherHistory = () => {
+  const [loadedLS, setLoadedLS] = useState(false);
   const { weather, addWeather } = useWeatherStore((state) => state);
 
   useEffect(() => {
@@ -13,13 +14,17 @@ const WeatherHistory = () => {
     if (st) {
       addWeather(JSON.parse(st));
     }
+    setLoadedLS(true);
   }, [addWeather]);
 
+  // Need to use loadedLS to initially load LocalStorage and not overwrite
+  // the data in LocalStorage. {weather.length} listed as dependency otherwise
+  // deleting a city from weather will not update the LocalStorage
   useEffect(() => {
-    if (weather.length > 0) {
+    if (loadedLS) {
       localStorage.setItem('weather', JSON.stringify(weather));
     }
-  }, [weather]);
+  }, [weather, weather.length, loadedLS]);
 
   return (
     <>
