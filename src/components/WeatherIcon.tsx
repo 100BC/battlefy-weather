@@ -1,28 +1,19 @@
-import { Cloud, CloudRain, Sun, Thermometer } from 'lucide-react';
+import Image from 'next/image';
 
 type Props = {
   weather: string;
+  icon: string;
 };
 
-const WeatherIcon = ({ weather }: Props) => {
-  let icon: JSX.Element;
-
-  switch (weather) {
-    case 'Clouds':
-      icon = <Cloud />;
-      break;
-    case 'Rain':
-      icon = <CloudRain />;
-      break;
-    case 'Clear':
-      icon = <Sun />;
-      break;
-    default:
-      icon = <Thermometer />;
-      break;
-  }
-
-  return icon;
+const WeatherIcon = ({ weather, icon }: Props) => {
+  return (
+    <Image
+      src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
+      alt={weather}
+      width={48}
+      height={48}
+    />
+  );
 };
 
 export default WeatherIcon;

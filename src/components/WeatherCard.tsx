@@ -61,7 +61,7 @@ const WeatherCard = ({ city }: Props) => {
       <CardContent className="flex flex-col gap-1">
         <ol className="space-y-1">
           <li className="text-3xl font-bold flex justify-center gap-1 items-center">
-            <WeatherIcon weather={weather[0].main} />
+            <WeatherIcon weather={weather[0].main} icon={weather[0].icon} />
             <Degree temp={temp.temp} />
           </li>
           <li>{weatherDesc}</li>
