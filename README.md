@@ -10,10 +10,11 @@ Website developed for Battlefy's interview process
 1. Generate an [OpenWeather Api](https://openweathermap.org/appid) key
 2. Copy `.env.example` into `.env.local`
 3. Add your OpenWeather Api to `OPEN_WEATHER_API_KEY` in `.env.local`
+4. Install the node packages via `pnpm install`
 
 ### Running locally
 
-First, run the development server:
+Run the development server:
 
 ```bash
 pnpm dev
